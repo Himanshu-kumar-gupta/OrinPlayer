@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Orin Player</string>
+    <string name="shuffle_btn">Shuffle</string>
+    <string name="favourite_btn">Favourites</string>
+    <string name="playlist_btn">Playlist</string>
+    <string name="total_songs">Total Songs</string>
 </resources>

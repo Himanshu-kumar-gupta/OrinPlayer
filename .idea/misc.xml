@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/favorite_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/orinPlayer_launcher_background.xml" value="0.2905" />
+        <entry key="app/src/main/res/drawable/playlist_icon.xml" value="0.1995" />
+        <entry key="app/src/main/res/drawable/shuffle_icon.xml" value="0.1995" />
         <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.264" />
       </map>
