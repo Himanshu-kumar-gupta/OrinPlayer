@@ -3,13 +3,26 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/back_button.xml" value="0.201" />
+        <entry key="app/src/main/res/drawable/favorite_border_icon.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/favorite_icon.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/graphic_eq_icon.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/orinPlayer_launcher_background.xml" value="0.2905" />
+        <entry key="app/src/main/res/drawable/pause_button.xml" value="0.201" />
+        <entry key="app/src/main/res/drawable/play_icon.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/playlist_icon.xml" value="0.1995" />
+        <entry key="app/src/main/res/drawable/repeat_icon.xml" value="0.201" />
+        <entry key="app/src/main/res/drawable/share_icon.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/shuffle_icon.xml" value="0.1995" />
         <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/timer_icon.xml" value="0.201" />
+        <entry key="app/src/main/res/layout/activity_favourite.xml" value="0.264" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="app/src/main/res/layout/activity_player.xml" value="0.264" />
+        <entry key="app/src/main/res/layout/activity_playlist.xml" value="0.31302083333333336" />
+        <entry key="app/src/main/res/layout/fragment_first.xml" value="0.31302083333333336" />
+        <entry key="app/src/main/res/layout/fragment_second.xml" value="0.31302083333333336" />
       </map>
     </option>
   </component>

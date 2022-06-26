@@ -4,4 +4,17 @@
     <string name="favourite_btn">Favourites</string>
     <string name="playlist_btn">Playlist</string>
     <string name="total_songs">Total Songs</string>
+    <string name="back_button">Back Button</string>
+    <string name="himanshu_orin_player">Himanshu Orin Player</string>
+    <string name="song_name">Name of Song</string>
+    <string name="previous_btn">Previous Button</string>
+    <string name="pause_btn">Pause Button</string>
+    <string name="next_btn">Next Button</string>
+    <string name="start_time">00:00</string>
+    <string name="end_time">11:11</string>
+    <string name="repeat_btn">Repeat Button</string>
+    <string name="equalizer_btn">Previous Button</string>
+    <string name="timer_btn">Timer Button</string>
+    <string name="share_btn">Share Button</string>
+    <string name="add_btn">Add Button</string>
 </resources>
