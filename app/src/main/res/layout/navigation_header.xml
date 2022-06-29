@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
+    android:padding="16dp"
+    android:background="#F4D96D"
+    android:orientation="vertical"
+    android:layout_marginTop="60dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:src="@mipmap/orinplayer_launcher_round"
+        android:contentDescription="@string/nav_icon"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:text="@string/nav_message"
+        android:textSize="15sp"
+        android:textColor="@color/black"/>
+
+</LinearLayout>
