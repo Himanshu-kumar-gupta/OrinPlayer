@@ -22,7 +22,8 @@
             android:backgroundTint="@android:color/transparent"
             android:contentDescription="@string/back_button"
             android:src="@drawable/back_button"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            android:padding="5dp"/>
 
         <TextView
             android:layout_width="match_parent"

@@ -20,7 +20,8 @@
             android:src="@drawable/back_button"
             android:background="@android:color/transparent"
             android:layout_marginStart="15dp"
-            android:contentDescription="@string/back_button" />
+            android:contentDescription="@string/back_button"
+            android:padding="5dp"/>
 
         <TextView
             android:layout_width="0dp"

@@ -10,7 +10,7 @@ class playlistActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_OrinPlayer)
+        setTheme(R.style.coolActivity)
         binding = ActivityPlaylistBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_playlist)
     }

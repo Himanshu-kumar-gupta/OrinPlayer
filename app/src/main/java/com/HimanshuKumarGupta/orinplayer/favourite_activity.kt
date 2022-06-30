@@ -10,7 +10,7 @@ class favourite_activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_OrinPlayer)
+        setTheme(R.style.coolActivity)
         binding= ActivityFavouriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
