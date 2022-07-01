@@ -8,12 +8,14 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.HimanshuKumarGupta.orinplayer.databinding.ActivityMainBinding
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var musicAdapter: MusicAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,21 @@ class MainActivity : AppCompatActivity() {
         binding.root.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val musicList = ArrayList<String>()
+        musicList.add("1 song name")
+        musicList.add("2 song name")
+        musicList.add("3 song name")
+        musicList.add("4 song name")
+        musicList.add("5 song name")
+        musicList.add("6 song name")
+
+        binding.MusicRecycleView.setHasFixedSize(true)
+        binding.MusicRecycleView.setItemViewCacheSize(15)
+        binding.MusicRecycleView.layoutManager = LinearLayoutManager(this@MainActivity)
+        musicAdapter = MusicAdapter(this@MainActivity, musicList)
+        binding.MusicRecycleView.adapter = musicAdapter
+        binding.totalSongs.text = "Total Songs : "+ musicAdapter.itemCount
 
         binding.ShuffleBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, player_activity::class.java))

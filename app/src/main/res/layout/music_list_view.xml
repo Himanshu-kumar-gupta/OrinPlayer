@@ -21,7 +21,9 @@
         android:text="@string/song_name"
         android:layout_toEndOf="@+id/SongImageMusicView"
         android:layout_toStartOf="@+id/SongDurationMusicView"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:singleLine="true"/>
 
     <TextView
         android:id="@+id/SongAlbumMusicView"
@@ -30,7 +32,9 @@
         android:layout_marginTop="30dp"
         android:text="@string/song_name"
         android:layout_toEndOf="@+id/SongImageMusicView"
-        android:layout_toStartOf="@+id/SongDurationMusicView"/>
+        android:layout_toStartOf="@+id/SongDurationMusicView"
+        android:gravity="center_vertical"
+        android:singleLine="true"/>
 
     <TextView
         android:id="@+id/SongDurationMusicView"
