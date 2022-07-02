@@ -3,6 +3,7 @@ package com.HimanshuKumarGupta.orinplayer
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -10,12 +11,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.HimanshuKumarGupta.orinplayer.databinding.ActivityMainBinding
+import java.io.File
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var musicAdapter: MusicAdapter
+
+    companion object {
+        lateinit var musicListMA: ArrayList<Music>
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,19 +34,12 @@ class MainActivity : AppCompatActivity() {
         binding.root.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        val musicList = ArrayList<String>()
-        musicList.add("1 song name")
-        musicList.add("2 song name")
-        musicList.add("3 song name")
-        musicList.add("4 song name")
-        musicList.add("5 song name")
-        musicList.add("6 song name")
+        musicListMA = getAllMusicFiles()
 
         binding.MusicRecycleView.setHasFixedSize(true)
         binding.MusicRecycleView.setItemViewCacheSize(15)
         binding.MusicRecycleView.layoutManager = LinearLayoutManager(this@MainActivity)
-        musicAdapter = MusicAdapter(this@MainActivity, musicList)
+        musicAdapter = MusicAdapter(this@MainActivity, musicListMA)
         binding.MusicRecycleView.adapter = musicAdapter
         binding.totalSongs.text = "Total Songs : "+ musicAdapter.itemCount
 
@@ -57,9 +56,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.navigationView.setNavigationItemSelectedListener {
-            when(it.itemId){
+            when(it.itemId) {
                 R.id.navFeedback -> Toast.makeText(this,"Feedback clicked", Toast.LENGTH_SHORT).show()
-                R.id.navSettings -> Toast.makeText(this,"Settings clicked", Toast.LENGTH_SHORT).show()
+                R.id.navSettings -> Toast.makeText( this,"Settings clicked", Toast.LENGTH_SHORT).show()
                 R.id.navAbout -> Toast.makeText(this,"About Section Clicked", Toast.LENGTH_SHORT).show()
                 R.id.navExit -> exitProcess(1)
             }
@@ -68,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun requestRuntimePermissions(){
+    private fun requestRuntimePermissions() {
         if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),11)
     }
@@ -79,10 +78,10 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (requestCode==11){
+        if (requestCode==11) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 Toast.makeText(this, "Permission is Granted", Toast.LENGTH_SHORT).show()
-            else{
+            else {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
             }
         }
@@ -92,6 +91,46 @@ class MainActivity : AppCompatActivity() {
         if (toggle.onOptionsItemSelected(item))
             return true
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun getAllMusicFiles(): ArrayList<Music> {
+        val tempMusicList = ArrayList<Music>()
+//        tempMusicList.add(Music("Dummy","Dummy","Dummy","Dummy",1,"Dummy"))
+        val selection = MediaStore.Audio.Media.IS_MUSIC + " !=0"
+        val projection = arrayOf( MediaStore.Audio.Media._ID,
+                                MediaStore.Audio.Media.TITLE,
+                                MediaStore.Audio.Media.ALBUM,
+                                MediaStore.Audio.Media.ARTIST,
+                                MediaStore.Audio.Media.DURATION,
+                                MediaStore.Audio.Media.DATE_ADDED,
+                                MediaStore.Audio.Media.DATA)
+
+        val cursor = this.contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            projection, selection, null,
+            MediaStore.Audio.Media.DATE_ADDED + " DESC",null)
+
+        if (cursor != null) {
+            if (cursor.moveToFirst())
+                do {
+    //                Appending C in variable to denote cursor variable
+                    val songNameC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
+                    val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID))
+                    val albumC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM))
+                    val artistC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
+                    val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
+                    val durationC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))
+                    val musicObj = Music(id = idC, songNameM= songNameC, album = albumC,
+                        artist = artistC, duration = durationC, path = pathC)
+
+                    val file = File(pathC)
+                    if (file.exists())
+                        tempMusicList.add(musicObj)
+                }while (cursor.moveToNext())
+
+            cursor.close()
+        }
+
+        return tempMusicList
     }
 }
 
