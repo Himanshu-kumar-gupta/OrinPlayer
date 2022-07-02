@@ -2,6 +2,7 @@ package com.HimanshuKumarGupta.orinplayer
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.MenuItem
@@ -103,7 +104,8 @@ class MainActivity : AppCompatActivity() {
                                 MediaStore.Audio.Media.ARTIST,
                                 MediaStore.Audio.Media.DURATION,
                                 MediaStore.Audio.Media.DATE_ADDED,
-                                MediaStore.Audio.Media.DATA)
+                                MediaStore.Audio.Media.DATA,
+                                MediaStore.Audio.Media.ALBUM_ID)
 
         val cursor = this.contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
             projection, selection, null,
@@ -119,8 +121,11 @@ class MainActivity : AppCompatActivity() {
                     val artistC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
                     val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
                     val durationC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))
+                    val albumIdC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
+                    val uri = Uri.parse("content://media/external/audio/albumart")
+                    val artUriC = Uri.withAppendedPath(uri, albumIdC).toString()
                     val musicObj = Music(id = idC, songNameM= songNameC, album = albumC,
-                        artist = artistC, duration = durationC, path = pathC)
+                        artist = artistC, duration = durationC, path = pathC, artUri = artUriC)
 
                     val file = File(pathC)
                     if (file.exists())
