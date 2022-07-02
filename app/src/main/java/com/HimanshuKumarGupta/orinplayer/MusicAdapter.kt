@@ -10,18 +10,18 @@ class MusicAdapter(private val context: Context,private val musicList: ArrayList
     RecyclerView.Adapter<MusicAdapter.MusicHolder>() {
 
     class MusicHolder(binding: MusicListViewBinding) : RecyclerView.ViewHolder(binding.root) {
-        val song_name = binding.SongNameMusicView
-        val song_album = binding.SongAlbumMusicView
-        val song_image = binding.SongImageMusicView
-        val song_duration = binding.SongDurationMusicView
+        val songName = binding.SongNameMusicView
+        val songAlbum = binding.SongAlbumMusicView
+        val songImage = binding.SongImageMusicView
+        val songDuration = binding.SongDurationMusicView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicHolder {
-        return MusicHolder(MusicListViewBinding.inflate(LayoutInflater.from(context),parent, false))
+        return MusicHolder(MusicListViewBinding.inflate(LayoutInflater.from(parent.context),parent, false))
     }
 
     override fun onBindViewHolder(holder: MusicHolder, position: Int) {
-        holder.song_name.text = musicList[position]
+        holder.songName.text = musicList[position]
     }
 
     override fun getItemCount(): Int {
