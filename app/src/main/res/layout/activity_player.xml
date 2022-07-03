@@ -45,6 +45,7 @@
     </LinearLayout>
 
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/songImagePA"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_margin="10dp"
@@ -55,6 +56,7 @@
         android:layout_gravity="center_horizontal"/>
 
     <TextView
+        android:id="@+id/songNamePA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -80,11 +82,12 @@
             android:contentDescription="@string/previous_btn"/>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/playPauseBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:icon="@drawable/pause_button"
             app:iconSize="40dp"
-            android:contentDescription="@string/pause_btn"
+            android:contentDescription="@string/play_pause_btn"
             app:shapeAppearanceOverlay="@style/curved"
             android:backgroundTint="#F43C7A"
             app:iconTint="@color/white"/>
