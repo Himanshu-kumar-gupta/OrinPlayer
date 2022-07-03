@@ -1,8 +1,10 @@
 package com.HimanshuKumarGupta.orinplayer
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.HimanshuKumarGupta.orinplayer.databinding.MusicListViewBinding
 import com.bumptech.glide.Glide
@@ -16,6 +18,7 @@ class MusicAdapter(private val context: Context,private val musicList: ArrayList
         val songAlbum = binding.SongAlbumMusicView
         val songImage = binding.SongImageMusicView
         val songDuration = binding.SongDurationMusicView
+        val rootBind = binding.root
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicHolder {
@@ -30,6 +33,11 @@ class MusicAdapter(private val context: Context,private val musicList: ArrayList
             .load(musicList[position].artUri)
             .apply(RequestOptions().placeholder(R.drawable.app_icon).centerCrop())
             .into(holder.songImage)
+
+        holder.rootBind.setOnClickListener {
+            val intent = Intent(context, player_activity::class.java)
+            ContextCompat.startActivity(context,intent,null)
+        }
     }
 
     override fun getItemCount(): Int {
