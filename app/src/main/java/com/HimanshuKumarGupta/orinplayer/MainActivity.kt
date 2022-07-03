@@ -38,13 +38,16 @@ class MainActivity : AppCompatActivity() {
 
         requestRuntimePermissions()
 
+        //Calling after permissions are granted
         if (checkStorage)
             initializeMusic()
 
-        clickEvents()
+        clickEventsMA()
     }
 
-    private fun clickEvents() {
+    private fun clickEventsMA() {
+
+        //Shuffle button accesses the musicListMA , so calling after
         if(checkStorage) {
             binding.ShuffleBtn.setOnClickListener {
                 val intent = Intent(this@MainActivity, player_activity::class.java)
@@ -103,8 +106,10 @@ class MainActivity : AppCompatActivity() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 checkStorage = true
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+                //Calling the below functions as permission are granted first time, so these functions will not be called
+                //they will be called after restart of app
                 initializeMusic()
-                clickEvents()
+                clickEventsMA()
             }
             else if (shouldShowRequestPermissionRationale(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 //can display permission denied in recycler view

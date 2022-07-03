@@ -1,19 +1,23 @@
 package com.HimanshuKumarGupta.orinplayer
 
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
 import com.HimanshuKumarGupta.orinplayer.databinding.ActivityPlayerBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class player_activity : AppCompatActivity() {
+class player_activity : AppCompatActivity(), ServiceConnection {
     private lateinit var binding: ActivityPlayerBinding
 
     companion object {
         lateinit var musicListPA : ArrayList<Music>
         var songPosition: Int = 0
-        var mediaPlayer : MediaPlayer? = null
+        var musicService: MusicService? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,13 +25,19 @@ class player_activity : AppCompatActivity() {
         setTheme(R.style.coolActivity)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Starting Service
+        val intent = Intent(this@player_activity, MusicService::class.java)
+        bindService(intent, this@player_activity, BIND_AUTO_CREATE)
+        startService(intent)
+
         setLayout()
         clickEventsPA()
     }
 
     private fun clickEventsPA() {
         binding.playPauseBtn.setOnClickListener {
-            if (mediaPlayer!!.isPlaying) pauseMusic()
+            if (musicService!!.mediaPlayer!!.isPlaying) pauseMusic()
             else playMusic()
         }
 
@@ -66,7 +76,6 @@ class player_activity : AppCompatActivity() {
                 //Creating a reference to music list in main activity
                 musicListPA = MainActivity.musicListMA
                 setImageText()
-                createMediaPlayer()
             }
 
             "MainActivity" -> {
@@ -74,7 +83,6 @@ class player_activity : AppCompatActivity() {
                 musicListPA.addAll(MainActivity.musicListMA)
                 musicListPA.shuffle()
                 setImageText()
-                createMediaPlayer()
             }
         }
     }
@@ -89,20 +97,31 @@ class player_activity : AppCompatActivity() {
     }
 
     private fun createMediaPlayer() {
-        if(mediaPlayer == null) mediaPlayer = MediaPlayer()
-        mediaPlayer!!.reset()
-        mediaPlayer!!.setDataSource(musicListPA[songPosition].path)
-        mediaPlayer!!.prepare()
-        mediaPlayer!!.start()
+        if(musicService!!.mediaPlayer == null) musicService!!.mediaPlayer = MediaPlayer()
+        musicService!!.mediaPlayer!!.reset()
+        musicService!!.mediaPlayer!!.setDataSource(musicListPA[songPosition].path)
+        musicService!!.mediaPlayer!!.prepare()
+        musicService!!.mediaPlayer!!.start()
     }
 
     private fun playMusic() {
         binding.playPauseBtn.setIconResource(R.drawable.pause_button)
-        mediaPlayer!!.start()
+        musicService!!.mediaPlayer!!.start()
     }
 
     private fun pauseMusic() {
         binding.playPauseBtn.setIconResource(R.drawable.play_btn)
-        mediaPlayer!!.pause()
+        musicService!!.mediaPlayer!!.pause()
+    }
+
+    override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
+        //type-casting p1 to MusicService
+        val binder = p1 as MusicService.MyBinder
+        musicService = binder.currentService()
+        createMediaPlayer()
+    }
+
+    override fun onServiceDisconnected(p0: ComponentName?) {
+        musicService = null
     }
 }
