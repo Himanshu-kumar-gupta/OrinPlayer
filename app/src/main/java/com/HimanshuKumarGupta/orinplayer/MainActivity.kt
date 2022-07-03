@@ -45,7 +45,10 @@ class MainActivity : AppCompatActivity() {
         binding.totalSongs.text = "Total Songs : "+ musicAdapter.itemCount
 
         binding.ShuffleBtn.setOnClickListener {
-            startActivity(Intent(this@MainActivity, player_activity::class.java))
+            val intent = Intent(this@MainActivity, player_activity::class.java)
+            intent.putExtra("index", 0)
+            intent.putExtra("class", "MainActivity")
+            startActivity(intent)
         }
 
         binding.favouriteBtn.setOnClickListener {

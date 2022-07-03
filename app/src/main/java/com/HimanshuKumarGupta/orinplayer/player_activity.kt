@@ -68,6 +68,14 @@ class player_activity : AppCompatActivity() {
                 setImageText()
                 createMediaPlayer()
             }
+
+            "MainActivity" -> {
+                musicListPA = ArrayList()
+                musicListPA.addAll(MainActivity.musicListMA)
+                musicListPA.shuffle()
+                setImageText()
+                createMediaPlayer()
+            }
         }
     }
 
