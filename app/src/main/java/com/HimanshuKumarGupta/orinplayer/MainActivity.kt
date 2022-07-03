@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var musicAdapter: MusicAdapter
-    var checkShuffle: Boolean = false
+    private var checkStorage = false
 
     companion object {
         lateinit var musicListMA: ArrayList<Music>
@@ -37,11 +37,15 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         requestRuntimePermissions()
+
+        if (checkStorage)
+            initializeMusic()
+
         clickEvents()
     }
 
     private fun clickEvents() {
-        if(checkShuffle) {
+        if(checkStorage) {
             binding.ShuffleBtn.setOnClickListener {
                 val intent = Intent(this@MainActivity, player_activity::class.java)
                 intent.putExtra("index", 0)
@@ -80,10 +84,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestRuntimePermissions() {
-        if(ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED)
+        checkStorage = if(ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                 arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),11)
+            false
+        } else
+            true
     }
 
     override fun onRequestPermissionsResult(
@@ -94,9 +101,10 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode==11) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                checkStorage = true
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
                 initializeMusic()
-                checkShuffle = true
+                clickEvents()
             }
             else if (shouldShowRequestPermissionRationale(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 //can display permission denied in recycler view
