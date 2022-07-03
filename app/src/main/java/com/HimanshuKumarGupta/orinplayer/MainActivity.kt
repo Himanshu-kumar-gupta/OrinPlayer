@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var musicAdapter: MusicAdapter
+    var checkShuffle: Boolean = false
 
     companion object {
         lateinit var musicListMA: ArrayList<Music>
@@ -27,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.coolNav)
-        requestRuntimePermissions()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -35,20 +35,19 @@ class MainActivity : AppCompatActivity() {
         binding.root.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        musicListMA = getAllMusicFiles()
 
-        binding.MusicRecycleView.setHasFixedSize(true)
-        binding.MusicRecycleView.setItemViewCacheSize(15)
-        binding.MusicRecycleView.layoutManager = LinearLayoutManager(this@MainActivity)
-        musicAdapter = MusicAdapter(this@MainActivity, musicListMA)
-        binding.MusicRecycleView.adapter = musicAdapter
-        binding.totalSongs.text = "Total Songs : "+ musicAdapter.itemCount
+        requestRuntimePermissions()
+        clickEvents()
+    }
 
-        binding.ShuffleBtn.setOnClickListener {
-            val intent = Intent(this@MainActivity, player_activity::class.java)
-            intent.putExtra("index", 0)
-            intent.putExtra("class", "MainActivity")
-            startActivity(intent)
+    private fun clickEvents() {
+        if(checkShuffle) {
+            binding.ShuffleBtn.setOnClickListener {
+                val intent = Intent(this@MainActivity, player_activity::class.java)
+                intent.putExtra("index", 0)
+                intent.putExtra("class", "MainActivity")
+                startActivity(intent)
+            }
         }
 
         binding.favouriteBtn.setOnClickListener {
@@ -68,12 +67,23 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+    }
 
+    private fun initializeMusic() {
+        musicListMA = getAllMusicFiles()
+        binding.MusicRecycleView.setHasFixedSize(true)
+        binding.MusicRecycleView.setItemViewCacheSize(15)
+        binding.MusicRecycleView.layoutManager = LinearLayoutManager(this@MainActivity)
+        musicAdapter = MusicAdapter(this@MainActivity, musicListMA)
+        binding.MusicRecycleView.adapter = musicAdapter
+        binding.totalSongs.text = "Total Songs : "+ musicAdapter.itemCount
     }
 
     private fun requestRuntimePermissions() {
-        if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),11)
+        if(ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this,
+                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),11)
     }
 
     override fun onRequestPermissionsResult(
@@ -83,10 +93,15 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode==11) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                Toast.makeText(this, "Permission is Granted", Toast.LENGTH_SHORT).show()
-            else {
-                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+                initializeMusic()
+                checkShuffle = true
+            }
+            else if (shouldShowRequestPermissionRationale(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                //can display permission denied in recycler view
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),11)
             }
         }
     }
