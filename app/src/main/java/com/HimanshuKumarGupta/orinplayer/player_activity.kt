@@ -22,9 +22,40 @@ class player_activity : AppCompatActivity() {
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setLayout()
+        clickEventsPA()
+    }
+
+    private fun clickEventsPA() {
         binding.playPauseBtn.setOnClickListener {
             if (mediaPlayer!!.isPlaying) pauseMusic()
             else playMusic()
+        }
+
+        binding.previousBtn.setOnClickListener {
+            setSongPosition(false)
+            setImageText()
+            createMediaPlayer()
+        }
+
+        binding.nextBtn.setOnClickListener {
+            setSongPosition(true)
+            setImageText()
+            createMediaPlayer()
+        }
+    }
+
+    private fun setSongPosition(increment : Boolean) {
+        if(increment) {
+            if (songPosition == musicListPA.size -1)
+                songPosition = 0
+            else
+                songPosition++
+        }
+        else {
+            if (songPosition == 0)
+                songPosition = musicListPA.size-1
+            else
+                songPosition--
         }
     }
 
