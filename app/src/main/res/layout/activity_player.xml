@@ -77,7 +77,7 @@
             android:id="@+id/previousBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/back_button"
+            app:icon="@drawable/previous_button"
             app:iconSize="30dp"
             android:layout_marginEnd="35dp"
             android:contentDescription="@string/previous_btn"/>

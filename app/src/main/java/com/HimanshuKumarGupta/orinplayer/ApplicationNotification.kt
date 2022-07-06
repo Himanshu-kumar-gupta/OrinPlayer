@@ -21,7 +21,7 @@ class ApplicationNotification : Application() {
 
         if (Build.VERSION.SDK_INT >= O) {
             val notificationChannel = NotificationChannel(channelIdAppN, "Now Playing Song",
-                NotificationManager.IMPORTANCE_HIGH)
+                NotificationManager.IMPORTANCE_DEFAULT)
             notificationChannel.description = "This is an important channel for showing songs"
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(notificationChannel)
