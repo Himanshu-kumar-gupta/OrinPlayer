@@ -26,4 +26,5 @@
     <string name="about">About</string>
     <string name="exit">Exit</string>
     <string name="song_album">Album of Song</string>
+    <string name="channel1">This is an important channel for showing songs</string>
 </resources>
