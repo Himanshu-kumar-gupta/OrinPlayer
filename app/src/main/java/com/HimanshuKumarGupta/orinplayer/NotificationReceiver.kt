@@ -12,13 +12,16 @@ class NotificationReceiver: BroadcastReceiver() {
             ApplicationNotification.previousAppN ->
                 Toast.makeText(p0, "Previous Button Clicked", Toast.LENGTH_SHORT).show()
 
-            ApplicationNotification.playAppN ->
-                Toast.makeText(p0, "Play Button Clicked", Toast.LENGTH_SHORT).show()
+            ApplicationNotification.playAppN -> player_activity.setPlayPause()
 
             ApplicationNotification.nextAppN ->
                 Toast.makeText(p0, "Next button clicked", Toast.LENGTH_SHORT).show()
 
-            ApplicationNotification.exitAppN -> exitProcess(1)
+            ApplicationNotification.exitAppN -> {
+                player_activity.musicService!!.stopForeground(true)
+                player_activity.musicService = null
+                exitProcess(1)
+            }
         }
     }
 }

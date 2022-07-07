@@ -12,12 +12,30 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
 class player_activity : AppCompatActivity(), ServiceConnection {
-    private lateinit var binding: ActivityPlayerBinding
+
 
     companion object {
+        lateinit var binding: ActivityPlayerBinding
         lateinit var musicListPA : ArrayList<Music>
         var songPosition: Int = 0
         var musicService: MusicService? = null
+
+        private fun playMusic() {
+            musicService!!.showNotification(R.drawable.pause_button)
+            binding.playPauseBtn.setIconResource(R.drawable.pause_button)
+            musicService!!.mediaPlayer!!.start()
+        }
+
+        private fun pauseMusic() {
+            musicService!!.showNotification(R.drawable.play_btn)
+            binding.playPauseBtn.setIconResource(R.drawable.play_btn)
+            musicService!!.mediaPlayer!!.pause()
+        }
+
+        fun setPlayPause() {
+            if (musicService!!.mediaPlayer!!.isPlaying) pauseMusic()
+            else playMusic()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +55,7 @@ class player_activity : AppCompatActivity(), ServiceConnection {
 
     private fun clickEventsPA() {
         binding.playPauseBtn.setOnClickListener {
-            if (musicService!!.mediaPlayer!!.isPlaying) pauseMusic()
-            else playMusic()
+            setPlayPause()
         }
 
         binding.previousBtn.setOnClickListener {
@@ -55,13 +72,16 @@ class player_activity : AppCompatActivity(), ServiceConnection {
     }
 
     private fun setSongPosition(increment : Boolean) {
+
         if(increment) {
+            // If increment at last position set it first song
             if (songPosition == musicListPA.size -1)
                 songPosition = 0
             else
                 songPosition++
         }
         else {
+            // If decrement at first position set it last song
             if (songPosition == 0)
                 songPosition = musicListPA.size-1
             else
@@ -72,13 +92,15 @@ class player_activity : AppCompatActivity(), ServiceConnection {
     private fun setLayout() {
         songPosition = intent.getIntExtra("index", 0)
         when(intent.getStringExtra("class")) {
+            //Passing from recycler view adapter
             "MusicAdapter" -> {
                 //Creating a reference to music list in main activity
                 musicListPA = MainActivity.musicListMA
                 setImageText()
             }
 
-            "MainActivity" -> {
+            //Passing from shuffle button
+            "MainActivityShuffle" -> {
                 musicListPA = ArrayList()
                 musicListPA.addAll(MainActivity.musicListMA)
                 musicListPA.shuffle()
@@ -88,7 +110,7 @@ class player_activity : AppCompatActivity(), ServiceConnection {
     }
 
     private fun setImageText() {
-        Glide.with(this)
+        Glide.with(this@player_activity)
             .load(musicListPA[songPosition].artUri)
             .apply(RequestOptions().placeholder(R.drawable.orinplayer_icon).centerCrop())
             .into(binding.songImagePA)
@@ -104,22 +126,13 @@ class player_activity : AppCompatActivity(), ServiceConnection {
         musicService!!.mediaPlayer!!.start()
     }
 
-    private fun playMusic() {
-        binding.playPauseBtn.setIconResource(R.drawable.pause_button)
-        musicService!!.mediaPlayer!!.start()
-    }
-
-    private fun pauseMusic() {
-        binding.playPauseBtn.setIconResource(R.drawable.play_btn)
-        musicService!!.mediaPlayer!!.pause()
-    }
 
     override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
         //type-casting p1 to MusicService
         val binder = p1 as MusicService.MyBinder
         musicService = binder.currentService()
         createMediaPlayer()
-        musicService!!.showNotification()
+        musicService!!.showNotification(R.drawable.pause_button)
     }
 
     override fun onServiceDisconnected(p0: ComponentName?) {
