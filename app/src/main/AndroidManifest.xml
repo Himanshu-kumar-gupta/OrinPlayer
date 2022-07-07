@@ -47,6 +47,8 @@
             </intent-filter>
         </activity>
         <service android:name=".MusicService"/>
+        <receiver android:name=".NotificationReceiver"
+            android:enabled="true"/>
     </application>
 
 </manifest>

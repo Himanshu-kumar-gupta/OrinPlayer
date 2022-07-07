@@ -90,7 +90,7 @@ class player_activity : AppCompatActivity(), ServiceConnection {
     private fun setImageText() {
         Glide.with(this)
             .load(musicListPA[songPosition].artUri)
-            .apply(RequestOptions().placeholder(R.drawable.app_icon).centerCrop())
+            .apply(RequestOptions().placeholder(R.drawable.orinplayer_icon).centerCrop())
             .into(binding.songImagePA)
 
         binding.songNamePA.text = musicListPA[songPosition].songNameM

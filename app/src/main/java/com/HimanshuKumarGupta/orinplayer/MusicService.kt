@@ -1,5 +1,6 @@
 package com.HimanshuKumarGupta.orinplayer
 
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -26,6 +27,27 @@ class MusicService: Service() {
     }
 
     fun showNotification() {
+
+        val previousButtonIntent = Intent(baseContext, NotificationReceiver::class.java)
+            .setAction(ApplicationNotification.previousAppN)
+        val previousPendingIntent = PendingIntent.
+        getBroadcast(baseContext, 0, previousButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val playButtonIntent = Intent(baseContext, NotificationReceiver::class.java)
+            .setAction(ApplicationNotification.playAppN)
+        val playPendingIntent = PendingIntent.
+        getBroadcast(baseContext, 0, playButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val nextButtonIntent = Intent(baseContext, NotificationReceiver::class.java)
+            .setAction(ApplicationNotification.nextAppN)
+        val nextPendingIntent = PendingIntent.
+        getBroadcast(baseContext, 0, nextButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val exitButtonIntent = Intent(baseContext, NotificationReceiver::class.java)
+            .setAction(ApplicationNotification.exitAppN)
+        val exitPendingIntent = PendingIntent.
+        getBroadcast(baseContext, 0, exitButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
         val notification = NotificationCompat.Builder(baseContext, ApplicationNotification.channelIdAppN)
             .setContentTitle(player_activity.musicListPA[player_activity.songPosition].songNameM)
             .setContentText(player_activity.musicListPA[player_activity.songPosition].album)
@@ -35,14 +57,13 @@ class MusicService: Service() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setOnlyAlertOnce(true)
-            .addAction(R.drawable.previous_button, "Previous", null)
-            .addAction(R.drawable.play_btn, "Play", null)
-            .addAction(R.drawable.forward_button, "Next", null)
-            .addAction(R.drawable.exit_icon, "Exit", null)
+            .addAction(R.drawable.previous_button, "Previous", previousPendingIntent )
+            .addAction(R.drawable.play_btn, "Play", playPendingIntent)
+            .addAction(R.drawable.forward_button, "Next", nextPendingIntent)
+            .addAction(R.drawable.exit_icon, "Exit", exitPendingIntent)
             .build()
 
         startForeground(11, notification)
     }
-
 
 }
