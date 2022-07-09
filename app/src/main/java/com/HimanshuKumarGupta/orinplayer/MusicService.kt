@@ -26,6 +26,14 @@ class MusicService: Service() {
         }
     }
 
+    fun createMediaPlayer() {
+        if(player_activity.musicService!!.mediaPlayer == null) player_activity.musicService!!.mediaPlayer = MediaPlayer()
+        player_activity.musicService!!.mediaPlayer!!.reset()
+        player_activity.musicService!!.mediaPlayer!!.setDataSource(player_activity.musicListPA[player_activity.songPosition].path)
+        player_activity.musicService!!.mediaPlayer!!.prepare()
+        player_activity.musicService!!.showNotification(R.drawable.pause_button)
+    }
+
     fun showNotification(playPauseBtn : Int) {
         val previousButtonIntent = Intent(baseContext, NotificationReceiver::class.java)
             .setAction(ApplicationNotification.previousAppN)

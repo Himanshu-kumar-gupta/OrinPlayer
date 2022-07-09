@@ -22,7 +22,7 @@ class player_activity : AppCompatActivity(), ServiceConnection {
         var musicService: MusicService? = null
 //        var imagePassToshowNotification : Int = 0
 
-        private fun playMusic() {
+        fun playMusic() {
             musicService!!.showNotification(R.drawable.pause_button)
             binding.playPauseBtn.setIconResource(R.drawable.pause_button)
             musicService!!.mediaPlayer!!.start()
@@ -83,23 +83,7 @@ class player_activity : AppCompatActivity(), ServiceConnection {
         }
     }
 
-    private fun setSongPosition(increment : Boolean) {
 
-        if(increment) {
-            // If increment at last position set it first song
-            if (songPosition == musicListPA.size -1)
-                songPosition = 0
-            else
-                songPosition++
-        }
-        else {
-            // If decrement at first position set it last song
-            if (songPosition == 0)
-                songPosition = musicListPA.size-1
-            else
-                songPosition--
-        }
-    }
 
     private fun setLayout() {
         songPosition = intent.getIntExtra("index", 0)
@@ -140,6 +124,7 @@ class player_activity : AppCompatActivity(), ServiceConnection {
         musicService!!.mediaPlayer!!.setDataSource(musicListPA[songPosition].path)
         musicService!!.mediaPlayer!!.prepare()
         musicService!!.mediaPlayer!!.start()
+        musicService!!.showNotification(R.drawable.pause_button)
     }
 
 
@@ -148,7 +133,6 @@ class player_activity : AppCompatActivity(), ServiceConnection {
         val binder = p1 as MusicService.MyBinder
         musicService = binder.currentService()
         createMediaPlayer()
-        musicService!!.showNotification(R.drawable.pause_button)
     }
 
     override fun onServiceDisconnected(p0: ComponentName?) {
