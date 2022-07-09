@@ -127,7 +127,7 @@ class player_activity : AppCompatActivity(), ServiceConnection {
 
     private fun setImageText() {
         Glide.with(this@player_activity)
-            .load(musicListPA[songPosition].artUri)
+            .load(musicListPA[songPosition].songImageMusic)
             .apply(RequestOptions().placeholder(R.drawable.orinplayer_icon).centerCrop())
             .into(binding.songImagePA)
 

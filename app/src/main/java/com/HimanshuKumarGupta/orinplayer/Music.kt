@@ -10,7 +10,8 @@ data class Music(
     val artist: String,
     val duration: Long = 0,
     val path: String,
-    val artUri:String)
+    val songImageMusic: ByteArray?
+)
 
 fun formatDuration(duration: Long) : String {
     val minutes = TimeUnit.MINUTES.convert(duration,TimeUnit.MILLISECONDS)

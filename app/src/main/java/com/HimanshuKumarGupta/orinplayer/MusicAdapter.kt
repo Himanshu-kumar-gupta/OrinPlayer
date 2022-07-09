@@ -30,7 +30,7 @@ class MusicAdapter(private val context: Context,private val musicList: ArrayList
         holder.songAlbum.text = musicList[position].album
         holder.songDuration.text = formatDuration(musicList[position].duration)
         Glide.with(context)
-            .load(musicList[position].artUri)
+            .load(musicList[position].songImageMusic)
             .apply(RequestOptions().placeholder(R.drawable.orinplayer_icon).centerCrop())
             .into(holder.songImage)
 
