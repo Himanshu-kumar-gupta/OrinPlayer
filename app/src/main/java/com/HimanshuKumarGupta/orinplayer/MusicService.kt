@@ -47,16 +47,22 @@ class MusicService: Service() {
         val exitPendingIntent = PendingIntent.
         getBroadcast(baseContext, 0, exitButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
+        val imageArt = getImageArt(player_activity.musicListPA[player_activity.songPosition].path)
+        val notificationImage = if (imageArt !=null)
+                BitmapFactory.decodeByteArray(imageArt,0,imageArt.size)
+            else
+                BitmapFactory.decodeResource(resources, R.drawable.orinplayer_icon)
+
         val notification = NotificationCompat.Builder(baseContext, ApplicationNotification.channelIdAppN)
             .setContentTitle(player_activity.musicListPA[player_activity.songPosition].songNameM)
             .setContentText(player_activity.musicListPA[player_activity.songPosition].album)
             .setSmallIcon(R.drawable.favorite_icon)
-            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.orinplayer_icon))
+            .setLargeIcon(notificationImage)
             .setStyle(androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(mediaSession.sessionToken))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setOnlyAlertOnce(true)
-            .addAction(R.drawable.previous_button, "Previous", previousPendingIntent )
+            .addAction(R.drawable.previous_button, "Previous", previousPendingIntent)
             .addAction(playPauseBtn, "Play", playPendingIntent)
             .addAction(R.drawable.forward_button, "Next", nextPendingIntent)
             .addAction(R.drawable.exit_icon, "Exit", exitPendingIntent)

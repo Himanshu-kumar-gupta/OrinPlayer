@@ -17,8 +17,10 @@ class player_activity : AppCompatActivity(), ServiceConnection {
     companion object {
         lateinit var binding: ActivityPlayerBinding
         lateinit var musicListPA : ArrayList<Music>
+//        private lateinit var intent: Intent
         var songPosition: Int = 0
         var musicService: MusicService? = null
+//        var imagePassToshowNotification : Int = 0
 
         private fun playMusic() {
             musicService!!.showNotification(R.drawable.pause_button)
@@ -53,21 +55,31 @@ class player_activity : AppCompatActivity(), ServiceConnection {
         clickEventsPA()
     }
 
+    fun previousSong() {
+        setSongPosition(false)
+        setImageText()
+        createMediaPlayer()
+        musicService!!.showNotification(R.drawable.pause_button)
+    }
+
+    fun nextSong() {
+        setSongPosition(true)
+        setImageText()
+        createMediaPlayer()
+        musicService!!.showNotification(R.drawable.pause_button)
+    }
+
     private fun clickEventsPA() {
         binding.playPauseBtn.setOnClickListener {
             setPlayPause()
         }
 
         binding.previousBtn.setOnClickListener {
-            setSongPosition(false)
-            setImageText()
-            createMediaPlayer()
+            previousSong()
         }
 
         binding.nextBtn.setOnClickListener {
-            setSongPosition(true)
-            setImageText()
-            createMediaPlayer()
+            nextSong()
         }
     }
 
@@ -105,6 +117,10 @@ class player_activity : AppCompatActivity(), ServiceConnection {
                 musicListPA.addAll(MainActivity.musicListMA)
                 musicListPA.shuffle()
                 setImageText()
+            }
+
+            "NotificationNext" -> {
+                nextSong()
             }
         }
     }
