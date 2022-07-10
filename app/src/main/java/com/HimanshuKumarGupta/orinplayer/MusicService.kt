@@ -6,7 +6,9 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.os.Binder
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
 import com.HimanshuKumarGupta.orinplayer.player_activity.Companion.binding
@@ -16,6 +18,7 @@ class MusicService: Service() {
     private var myBinder = MyBinder()
     var mediaPlayer:MediaPlayer? = null
     private lateinit var mediaSession: MediaSessionCompat
+    private lateinit var runnable: Runnable
 
     override fun onBind(p0: Intent?): IBinder {
         mediaSession = MediaSessionCompat(baseContext, "My Music")
@@ -29,17 +32,27 @@ class MusicService: Service() {
     }
 
     fun createMediaPlayer() {
-        if(musicService!!.mediaPlayer == null) musicService!!.mediaPlayer = MediaPlayer()
-        musicService!!.mediaPlayer!!.reset()
-        musicService!!.mediaPlayer!!.setDataSource(player_activity.musicListPA[player_activity.songPosition].path)
-        musicService!!.mediaPlayer!!.prepare()
-        musicService!!.showNotification(R.drawable.pause_button)
+        if(mediaPlayer == null) musicService!!.mediaPlayer = MediaPlayer()
+        mediaPlayer!!.reset()
+        mediaPlayer!!.setDataSource(player_activity.musicListPA[player_activity.songPosition].path)
+        mediaPlayer!!.prepare()
+        showNotification(R.drawable.pause_button)
 
         //Settings for seekbar
-        binding.seekBarStartPA.text = formatDuration(musicService!!.mediaPlayer!!.currentPosition.toLong())
-        binding.seekBarEndPA.text = formatDuration(musicService!!.mediaPlayer!!.duration.toLong())
+        binding.seekBarStartPA.text = formatDuration(mediaPlayer!!.currentPosition.toLong())
+        binding.seekBarEndPA.text = formatDuration(mediaPlayer!!.duration.toLong())
         binding.seekBarPA.progress = 0
-        binding.seekBarPA.max= musicService!!.mediaPlayer!!.duration
+        binding.seekBarPA.max= mediaPlayer!!.duration
+    }
+
+    fun seekBarSetup() {
+        runnable = Runnable {
+            binding.seekBarStartPA.text = formatDuration(mediaPlayer!!.currentPosition.toLong())
+            binding.seekBarPA.progress = mediaPlayer!!.currentPosition
+            Handler(Looper.getMainLooper()).postDelayed(runnable,200)
+        }
+
+        Handler(Looper.getMainLooper()).postDelayed(runnable,0)
     }
 
     fun showNotification(playPauseBtn : Int) {
