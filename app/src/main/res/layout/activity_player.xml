@@ -111,18 +111,21 @@
         android:layout_weight="1">
 
         <TextView
+            android:id="@+id/seekBarStartPA"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/start_time"/>
 
         <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seekBarPA"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             tools:ignore="NestedWeights" />
 
         <TextView
+            android:id="@+id/seekBarEndPA"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/end_time"

@@ -126,7 +126,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun getAllMusicFiles(): ArrayList<Music> {
         val tempMusicList = ArrayList<Music>()
-//        tempMusicList.add(Music("Dummy","Dummy","Dummy","Dummy",1,"Dummy"))
         val selection = MediaStore.Audio.Media.IS_MUSIC + " !=0"
         val projection = arrayOf( MediaStore.Audio.Media._ID,
                                 MediaStore.Audio.Media.TITLE,

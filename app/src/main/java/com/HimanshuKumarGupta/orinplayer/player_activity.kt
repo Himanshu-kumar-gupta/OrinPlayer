@@ -6,6 +6,7 @@ import android.content.ServiceConnection
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.IBinder
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import com.HimanshuKumarGupta.orinplayer.databinding.ActivityPlayerBinding
 import com.bumptech.glide.Glide
@@ -17,10 +18,8 @@ class player_activity : AppCompatActivity(), ServiceConnection {
     companion object {
         lateinit var binding: ActivityPlayerBinding
         lateinit var musicListPA : ArrayList<Music>
-//        private lateinit var intent: Intent
         var songPosition: Int = 0
         var musicService: MusicService? = null
-//        var imagePassToshowNotification : Int = 0
 
         fun playMusic() {
             musicService!!.showNotification(R.drawable.pause_button)
@@ -55,14 +54,14 @@ class player_activity : AppCompatActivity(), ServiceConnection {
         clickEventsPA()
     }
 
-    fun previousSong() {
+    private fun previousSong() {
         setSongPosition(false)
         setImageText()
         createMediaPlayer()
         musicService!!.showNotification(R.drawable.pause_button)
     }
 
-    fun nextSong() {
+    private fun nextSong() {
         setSongPosition(true)
         setImageText()
         createMediaPlayer()
@@ -81,6 +80,16 @@ class player_activity : AppCompatActivity(), ServiceConnection {
         binding.nextBtn.setOnClickListener {
             nextSong()
         }
+
+        binding.seekBarPA.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, progress: Int, changeByUser: Boolean) {
+                if (changeByUser) musicService!!.mediaPlayer!!.seekTo(progress)
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) = Unit
+
+            override fun onStopTrackingTouch(p0: SeekBar?) = Unit
+        })
     }
 
 
@@ -125,6 +134,12 @@ class player_activity : AppCompatActivity(), ServiceConnection {
         musicService!!.mediaPlayer!!.prepare()
         musicService!!.mediaPlayer!!.start()
         musicService!!.showNotification(R.drawable.pause_button)
+
+        //Settings for seekbar
+        binding.seekBarStartPA.text = formatDuration(musicService!!.mediaPlayer!!.currentPosition.toLong())
+        binding.seekBarEndPA.text = formatDuration(musicService!!.mediaPlayer!!.duration.toLong())
+        binding.seekBarPA.progress = 0
+        binding.seekBarPA.max= musicService!!.mediaPlayer!!.duration
     }
 
 

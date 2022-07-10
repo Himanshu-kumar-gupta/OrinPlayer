@@ -9,6 +9,8 @@ import android.os.Binder
 import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
+import com.HimanshuKumarGupta.orinplayer.player_activity.Companion.binding
+import com.HimanshuKumarGupta.orinplayer.player_activity.Companion.musicService
 
 class MusicService: Service() {
     private var myBinder = MyBinder()
@@ -27,11 +29,17 @@ class MusicService: Service() {
     }
 
     fun createMediaPlayer() {
-        if(player_activity.musicService!!.mediaPlayer == null) player_activity.musicService!!.mediaPlayer = MediaPlayer()
-        player_activity.musicService!!.mediaPlayer!!.reset()
-        player_activity.musicService!!.mediaPlayer!!.setDataSource(player_activity.musicListPA[player_activity.songPosition].path)
-        player_activity.musicService!!.mediaPlayer!!.prepare()
-        player_activity.musicService!!.showNotification(R.drawable.pause_button)
+        if(musicService!!.mediaPlayer == null) musicService!!.mediaPlayer = MediaPlayer()
+        musicService!!.mediaPlayer!!.reset()
+        musicService!!.mediaPlayer!!.setDataSource(player_activity.musicListPA[player_activity.songPosition].path)
+        musicService!!.mediaPlayer!!.prepare()
+        musicService!!.showNotification(R.drawable.pause_button)
+
+        //Settings for seekbar
+        binding.seekBarStartPA.text = formatDuration(musicService!!.mediaPlayer!!.currentPosition.toLong())
+        binding.seekBarEndPA.text = formatDuration(musicService!!.mediaPlayer!!.duration.toLong())
+        binding.seekBarPA.progress = 0
+        binding.seekBarPA.max= musicService!!.mediaPlayer!!.duration
     }
 
     fun showNotification(playPauseBtn : Int) {
