@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
         if (cursor != null) {
             if (cursor.moveToFirst())
                 do {
-    //                Appending C in variable to denote cursor variable
+                    // Appending C in variable to denote cursor variable
                     val songNameC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
                     val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID))
                     val albumC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM))

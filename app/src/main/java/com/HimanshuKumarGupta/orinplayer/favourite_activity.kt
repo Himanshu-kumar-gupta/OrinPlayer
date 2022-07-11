@@ -13,5 +13,9 @@ class favourite_activity : AppCompatActivity() {
         setTheme(R.style.coolActivity)
         binding= ActivityFavouriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.backBtnFaVA.setOnClickListener {
+            finish()
+        }
     }
 }

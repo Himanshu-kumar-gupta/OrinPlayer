@@ -12,6 +12,10 @@ class playlistActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.coolActivity)
         binding = ActivityPlaylistBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_playlist)
+        setContentView(binding.root)
+
+        binding.backBtnPlaylistA.setOnClickListener {
+            finish()
+        }
     }
 }

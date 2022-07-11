@@ -96,7 +96,6 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
         })
 
         binding.repeatBtn.setOnClickListener {
-
             //Changing color on being selected
             if(!repeat) {
                 repeat = true
@@ -108,6 +107,10 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
                 binding.repeatBtn.setColorFilter(ContextCompat
                     .getColor(this@player_activity, R.color.default_button))
             }
+        }
+
+        binding.backBtnPlayerA.setOnClickListener {
+            finish()
         }
     }
 
