@@ -29,18 +29,19 @@ fun getImageArt(path: String): ByteArray? {
 
 fun setSongPosition(increment : Boolean) {
 
-    if(increment) {
-        // If increment at last position set it first song
-        if (player_activity.songPosition == player_activity.musicListPA.size -1)
-            player_activity.songPosition = 0
-        else
-            player_activity.songPosition++
-    }
-    else {
-        // If decrement at first position set it last song
-        if (player_activity.songPosition == 0)
-            player_activity.songPosition = player_activity.musicListPA.size-1
-        else
-            player_activity.songPosition--
+    if (!player_activity.repeat) {
+        if (increment) {
+            // If increment at last position set it first song
+            if (player_activity.songPosition == player_activity.musicListPA.size - 1)
+                player_activity.songPosition = 0
+            else
+                player_activity.songPosition++
+        } else {
+            // If decrement at first position set it last song
+            if (player_activity.songPosition == 0)
+                player_activity.songPosition = player_activity.musicListPA.size - 1
+            else
+                player_activity.songPosition--
+        }
     }
 }

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.HimanshuKumarGupta.orinplayer.databinding.ActivityPlayerBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -20,6 +21,7 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
         lateinit var musicListPA : ArrayList<Music>
         var songPosition: Int = 0
         var musicService: MusicService? = null
+        var repeat: Boolean = false
 
         fun playMusic() {
             musicService!!.showNotification(R.drawable.pause_button)
@@ -90,9 +92,23 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) = Unit
-
             override fun onStopTrackingTouch(p0: SeekBar?) = Unit
         })
+
+        binding.repeatBtn.setOnClickListener {
+
+            //Changing color on being selected
+            if(!repeat) {
+                repeat = true
+                binding.repeatBtn.setColorFilter(ContextCompat
+                    .getColor(this@player_activity, R.color.orange1))
+            }else {
+                //Reverting to original color if being selected again to unrepeated
+                repeat= false
+                binding.repeatBtn.setColorFilter(ContextCompat
+                    .getColor(this@player_activity, R.color.default_button))
+            }
+        }
     }
 
     private fun setLayout() {
@@ -126,6 +142,9 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
             .into(binding.songImagePA)
 
         binding.songNamePA.text = musicListPA[songPosition].songNameM
+
+        if(repeat) binding.repeatBtn.setColorFilter(ContextCompat
+            .getColor(this@player_activity, R.color.orange1))
     }
 
     private fun createMediaPlayer() {

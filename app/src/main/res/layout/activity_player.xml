@@ -140,6 +140,7 @@
         android:layout_weight="1">
 
         <ImageButton
+            android:id="@+id/repeatBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/repeat_icon"
