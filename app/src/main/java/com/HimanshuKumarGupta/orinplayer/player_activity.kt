@@ -12,7 +12,7 @@ import com.HimanshuKumarGupta.orinplayer.databinding.ActivityPlayerBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class player_activity : AppCompatActivity(), ServiceConnection {
+class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionListener {
 
 
     companion object {
@@ -58,14 +58,17 @@ class player_activity : AppCompatActivity(), ServiceConnection {
         setSongPosition(false)
         setImageText()
         createMediaPlayer()
-        musicService!!.showNotification(R.drawable.pause_button)
     }
 
     private fun nextSong() {
         setSongPosition(true)
-        setImageText()
         createMediaPlayer()
-        musicService!!.showNotification(R.drawable.pause_button)
+
+        //Placing in try-catch block so that if application in foreground is closed
+        //So we need not set image text for player_activity layout
+        //And application can run in background with notification
+        try {
+            setImageText() } catch (e:Exception) { return }
     }
 
     private fun clickEventsPA() {
@@ -91,8 +94,6 @@ class player_activity : AppCompatActivity(), ServiceConnection {
             override fun onStopTrackingTouch(p0: SeekBar?) = Unit
         })
     }
-
-
 
     private fun setLayout() {
         songPosition = intent.getIntExtra("index", 0)
@@ -140,6 +141,9 @@ class player_activity : AppCompatActivity(), ServiceConnection {
         binding.seekBarEndPA.text = formatDuration(musicService!!.mediaPlayer!!.duration.toLong())
         binding.seekBarPA.progress = 0
         binding.seekBarPA.max= musicService!!.mediaPlayer!!.duration
+
+        //On song completion
+        musicService!!.mediaPlayer!!.setOnCompletionListener(this@player_activity)
     }
 
 
@@ -153,5 +157,10 @@ class player_activity : AppCompatActivity(), ServiceConnection {
 
     override fun onServiceDisconnected(p0: ComponentName?) {
         musicService = null
+    }
+
+    //On song completion
+    override fun onCompletion(p0: MediaPlayer?) {
+        nextSong()
     }
 }
