@@ -68,7 +68,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/MusicRecycleView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:scrollbarThumbVertical="@color/teal_200"
+            android:scrollbarSize="8dp"
+            android:fadeScrollbars="false"/>
     </LinearLayout>
     
     <com.google.android.material.navigation.NavigationView

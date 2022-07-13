@@ -10,8 +10,9 @@
         <entry key="app/src/main/res/drawable/play_btn.xml" value="0.1975" />
         <entry key="app/src/main/res/drawable/previous_button.xml" value="0.1975" />
         <entry key="app/src/main/res/drawable/repeat_icon.xml" value="0.21" />
+        <entry key="app/src/main/res/drawable/scrollbar_icon.xml" value="0.21" />
         <entry key="app/src/main/res/layout/activity_favourite.xml" value="0.31302083333333336" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_player.xml" value="0.31302083333333336" />
         <entry key="app/src/main/res/layout/activity_playlist.xml" value="0.31302083333333336" />
         <entry key="app/src/main/res/layout/music_list_view.xml" value="0.264" />
