@@ -4,9 +4,11 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.media.MediaPlayer
+import android.media.audiofx.AudioEffect
 import android.os.Bundle
 import android.os.IBinder
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.HimanshuKumarGupta.orinplayer.databinding.ActivityPlayerBinding
@@ -106,6 +108,23 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
                 repeat= false
                 binding.repeatBtn.setColorFilter(ContextCompat
                     .getColor(this@player_activity, R.color.default_button))
+            }
+        }
+
+        binding.EqualizerBtn.setOnClickListener {
+            try {
+                val equalizerIntent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
+                equalizerIntent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION,
+                    musicService!!.mediaPlayer!!.audioSessionId)
+                //Passing baseContext otherwise it will set for whole system
+                equalizerIntent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, baseContext.packageName)
+                equalizerIntent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE,
+                    AudioEffect.CONTENT_TYPE_MUSIC)
+                startActivity(equalizerIntent)
+
+            }catch (e:Exception) {
+                Toast.makeText(this@player_activity,
+                    "Equalizer feature is not supported for this device",Toast.LENGTH_SHORT).show()
             }
         }
 
