@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <Button
+        android:id="@+id/min_15"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:contentDescription="@string/min15"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:text="@string/min15"
+        android:drawableLeft="@drawable/timer_icon"
+        android:textColor="@color/orange1"
+        tools:ignore="RtlHardcoded"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/min_30"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:contentDescription="@string/min30"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:text="@string/min30"
+        android:drawableLeft="@drawable/timer_icon"
+        android:textColor="@color/orange1"
+        tools:ignore="RtlHardcoded"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/min_60"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:contentDescription="@string/min60"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:text="@string/min60"
+        android:drawableLeft="@drawable/timer_icon"
+        android:textColor="@color/orange1"
+        tools:ignore="RtlHardcoded"
+        android:textAllCaps="false"/>
+
+</LinearLayout>

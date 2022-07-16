@@ -7,6 +7,7 @@ import android.media.MediaPlayer
 import android.media.audiofx.AudioEffect
 import android.os.Bundle
 import android.os.IBinder
+import android.widget.Button
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,9 +15,9 @@ import androidx.core.content.ContextCompat
 import com.HimanshuKumarGupta.orinplayer.databinding.ActivityPlayerBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionListener {
-
 
     companion object {
         lateinit var binding: ActivityPlayerBinding
@@ -60,8 +61,9 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
 
     private fun previousSong() {
         setSongPosition(false)
-        setImageText()
         createMediaPlayer()
+        try {
+            setImageText() } catch (e:Exception) { return }
     }
 
     private fun nextSong() {
@@ -128,6 +130,10 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
             }
         }
 
+        binding.timerBtnPA.setOnClickListener {
+            showBottomSheetDialog()
+        }
+
         binding.backBtnPlayerA.setOnClickListener {
             finish()
         }
@@ -185,6 +191,32 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
 
         //On song completion
         musicService!!.mediaPlayer!!.setOnCompletionListener(this@player_activity)
+    }
+
+    private fun showBottomSheetDialog() {
+        val bottomDialog = BottomSheetDialog(this@player_activity)
+        bottomDialog.setContentView(R.layout.bottom_sheet_dialog)
+        bottomDialog.show()
+
+        //Remove the dialog after any button is clicked
+        bottomDialog.findViewById<Button>(R.id.min_15)?.setOnClickListener {
+            Toast.makeText(this@player_activity,
+                "Player will close in 15 min", Toast.LENGTH_SHORT).show()
+            bottomDialog.dismiss()
+        }
+
+        bottomDialog.findViewById<Button>(R.id.min_30)?.setOnClickListener {
+            Toast.makeText(this@player_activity,
+                "Player will close in 30 min", Toast.LENGTH_SHORT).show()
+            bottomDialog.dismiss()
+        }
+
+        bottomDialog.findViewById<Button>(R.id.min_60)?.setOnClickListener {
+            Toast.makeText(this@player_activity,
+                "Player will close in 1 Hour", Toast.LENGTH_SHORT).show()
+            bottomDialog.dismiss()
+        }
+
     }
 
 

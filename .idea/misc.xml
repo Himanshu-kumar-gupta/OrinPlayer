@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_player.xml" value="0.31302083333333336" />
         <entry key="app/src/main/res/layout/activity_playlist.xml" value="0.31302083333333336" />
+        <entry key="app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.31197916666666664" />
         <entry key="app/src/main/res/layout/music_list_view.xml" value="0.264" />
         <entry key="app/src/main/res/layout/navigation_header.xml" value="0.31302083333333336" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/orinplayer_launcher.xml" value="0.187" />
