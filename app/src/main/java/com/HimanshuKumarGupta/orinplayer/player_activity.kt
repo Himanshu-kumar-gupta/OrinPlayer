@@ -3,6 +3,7 @@ package com.HimanshuKumarGupta.orinplayer
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.media.audiofx.AudioEffect
 import android.os.Bundle
@@ -10,12 +11,14 @@ import android.os.IBinder
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.HimanshuKumarGupta.orinplayer.databinding.ActivityPlayerBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionListener {
 
@@ -25,6 +28,9 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
         var songPosition: Int = 0
         var musicService: MusicService? = null
         var repeat: Boolean = false
+        var min15: Boolean = false
+        var min30: Boolean = false
+        var min60: Boolean = false
 
         fun playMusic() {
             musicService!!.showNotification(R.drawable.pause_button)
@@ -131,7 +137,29 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
         }
 
         binding.timerBtnPA.setOnClickListener {
-            showBottomSheetDialog()
+            val timer = min15 || min30 || min60
+            if(!timer)
+                showBottomSheetDialog()
+            else {
+                val builder = MaterialAlertDialogBuilder(this@player_activity)
+                builder.setTitle("Timer")
+                    .setMessage("Wanna stop the timer?")
+                    .setPositiveButton("Yes") {_,_ ->
+                        min15=false
+                        min30=false
+                        min60=false
+                        binding.timerBtnPA.setColorFilter(ContextCompat.
+                        getColor(this@player_activity, R.color.default_button))
+                    }
+                    .setNegativeButton("No") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+
+                val timerDialog = builder.create()
+                timerDialog.show()
+                timerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED)
+                timerDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GREEN)
+            }
         }
 
         binding.backBtnPlayerA.setOnClickListener {
@@ -173,6 +201,9 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
 
         if(repeat) binding.repeatBtn.setColorFilter(ContextCompat
             .getColor(this@player_activity, R.color.orange1))
+
+        if(min15 || min30 || min60) binding.timerBtnPA.setColorFilter(ContextCompat.
+        getColor(this@player_activity, R.color.orange1 ))
     }
 
     private fun createMediaPlayer() {
@@ -202,18 +233,34 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
         bottomDialog.findViewById<Button>(R.id.min_15)?.setOnClickListener {
             Toast.makeText(this@player_activity,
                 "Player will close in 15 min", Toast.LENGTH_SHORT).show()
+            binding.timerBtnPA.setColorFilter(ContextCompat.
+            getColor(this@player_activity, R.color.orange1 ))
+
+            min15=true
+            Thread{Thread.sleep(15 * 60000)
+            if (min15) exitApplication()}.start()
             bottomDialog.dismiss()
         }
 
         bottomDialog.findViewById<Button>(R.id.min_30)?.setOnClickListener {
             Toast.makeText(this@player_activity,
                 "Player will close in 30 min", Toast.LENGTH_SHORT).show()
+            binding.timerBtnPA.setColorFilter(ContextCompat.
+            getColor(this@player_activity, R.color.orange1 ))
+            min30=true
+            Thread{Thread.sleep(30 * 60000)
+                if (min30) exitApplication()}.start()
             bottomDialog.dismiss()
         }
 
         bottomDialog.findViewById<Button>(R.id.min_60)?.setOnClickListener {
             Toast.makeText(this@player_activity,
                 "Player will close in 1 Hour", Toast.LENGTH_SHORT).show()
+            binding.timerBtnPA.setColorFilter(ContextCompat.
+            getColor(this@player_activity, R.color.orange1 ))
+            min60=true
+            Thread{Thread.sleep(60 * 60000)
+                if (min60) exitApplication()}.start()
             bottomDialog.dismiss()
         }
 
