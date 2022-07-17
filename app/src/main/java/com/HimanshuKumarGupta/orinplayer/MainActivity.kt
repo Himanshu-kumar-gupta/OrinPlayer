@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.HimanshuKumarGupta.orinplayer.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
-import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -77,12 +76,7 @@ class MainActivity : AppCompatActivity() {
                     builder.setTitle("Exit")
                         .setMessage("Do you really want to close this app?")
                         .setPositiveButton("Yes") {_,_ ->
-                            if (player_activity.musicService !=null) {
-                                player_activity.musicService!!.stopForeground(true)
-                                player_activity.musicService!!.mediaPlayer!!.release()
-                                player_activity.musicService = null
-                            }
-                            exitProcess(1)
+                            exitApplication()
                         }
                         .setNegativeButton("No") {dialog, _ ->
                             dialog.dismiss()

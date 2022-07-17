@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import kotlin.system.exitProcess
 
 class NotificationReceiver: BroadcastReceiver() {
     override fun onReceive(p0: Context?, p1: Intent?) {
@@ -18,10 +17,7 @@ class NotificationReceiver: BroadcastReceiver() {
 
 
             ApplicationNotification.exitAppN -> {
-                player_activity.musicService!!.stopForeground(true)
-                player_activity.musicService!!.mediaPlayer!!.release()
-                player_activity.musicService = null
-                exitProcess(1)
+                exitApplication()
             }
         }
     }

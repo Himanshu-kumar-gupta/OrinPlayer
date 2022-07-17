@@ -2,6 +2,7 @@ package com.HimanshuKumarGupta.orinplayer
 
 import android.media.MediaMetadataRetriever
 import java.util.concurrent.TimeUnit
+import kotlin.system.exitProcess
 
 data class Music(
     val id: String,
@@ -44,4 +45,13 @@ fun setSongPosition(increment : Boolean) {
                 player_activity.songPosition--
         }
     }
+}
+
+fun exitApplication() {
+    if (player_activity.musicService !=null) {
+        player_activity.musicService!!.stopForeground(true)
+        player_activity.musicService!!.mediaPlayer!!.release()
+        player_activity.musicService = null
+    }
+    exitProcess(1)
 }
