@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -179,8 +180,23 @@ class MainActivity : AppCompatActivity() {
 
             cursor.close()
         }
-
         return tempMusicList
+    }
+
+    // Menu for search view
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.search_view_menu, menu)
+        val searchView = menu.findItem(R.id.searchView)?.actionView as androidx.appcompat.widget.SearchView
+        searchView.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = true
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                Toast.makeText(this@MainActivity,  newText.toString(), Toast.LENGTH_SHORT).show()
+                return true
+            }
+        })
+        return super.onCreateOptionsMenu(menu)
     }
 }
 
