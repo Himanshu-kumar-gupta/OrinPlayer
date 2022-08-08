@@ -1,5 +1,6 @@
 package com.HimanshuKumarGupta.orinplayer
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
@@ -24,6 +25,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionListener {
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         lateinit var binding: ActivityPlayerBinding
         lateinit var musicListPA : ArrayList<Music>
         var songPosition: Int = 0

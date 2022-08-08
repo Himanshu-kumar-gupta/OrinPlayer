@@ -10,12 +10,8 @@ class NotificationReceiver: BroadcastReceiver() {
     override fun onReceive(p0: Context?, p1: Intent?) {
         when(p1?.action) {
             ApplicationNotification.previousAppN -> previousNextSong(increment = false, context = p0!!)
-
             ApplicationNotification.playAppN -> player_activity.setPlayPause()
-
             ApplicationNotification.nextAppN -> previousNextSong(increment = true, context = p0!!)
-
-
             ApplicationNotification.exitAppN -> {
                 exitApplication()
             }

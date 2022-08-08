@@ -1,13 +1,16 @@
 package com.HimanshuKumarGupta.orinplayer
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         lateinit var musicListMA: ArrayList<Music>
+//        lateinit var musicSearchList: ArrayList<Music>
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,6 +97,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initializeMusic() {
         musicListMA = getAllMusicFiles()
         binding.MusicRecycleView.setHasFixedSize(true)
@@ -100,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         binding.MusicRecycleView.layoutManager = LinearLayoutManager(this@MainActivity)
         musicAdapter = MusicAdapter(this@MainActivity, musicListMA)
         binding.MusicRecycleView.adapter = musicAdapter
-        binding.totalSongs.text = "Total Songs : "+ musicAdapter.itemCount
+        binding.totalSongs.text = "Total Songs :  ${musicAdapter.itemCount}"
     }
 
     private fun requestRuntimePermissions() {
@@ -113,6 +118,7 @@ class MainActivity : AppCompatActivity() {
             true
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -162,12 +168,12 @@ class MainActivity : AppCompatActivity() {
             if (cursor.moveToFirst())
                 do {
                     // Appending C in variable to denote cursor variable
-                    val songNameC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
-                    val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID))
-                    val albumC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM))
-                    val artistC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
-                    val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
-                    val durationC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))
+                    val songNameC = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE))
+                    val idC = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID))
+                    val albumC = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM))
+                    val artistC = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST))
+                    val pathC = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA))
+                    val durationC = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION))
                     val songImageC= getImageArt(pathC)
                     val musicObj = Music(
                         id = idC, songNameM = songNameC, album = albumC,
@@ -192,7 +198,12 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String?): Boolean = true
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                Toast.makeText(this@MainActivity,  newText.toString(), Toast.LENGTH_SHORT).show()
+//                if(newText!=null) {
+//                    val userInput = newText.lowercase()
+//                    for (song in musicListMA)
+//                        if (song.songNameM.lowercase().contains(userInput))
+//                            musicSearchList.add(song)
+//                }
                 return true
             }
         })
