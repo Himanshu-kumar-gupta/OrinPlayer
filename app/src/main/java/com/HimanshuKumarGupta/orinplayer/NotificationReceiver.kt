@@ -12,9 +12,7 @@ class NotificationReceiver: BroadcastReceiver() {
             ApplicationNotification.previousAppN -> previousNextSong(increment = false, context = p0!!)
             ApplicationNotification.playAppN -> player_activity.setPlayPause()
             ApplicationNotification.nextAppN -> previousNextSong(increment = true, context = p0!!)
-            ApplicationNotification.exitAppN -> {
-                exitApplication()
-            }
+            ApplicationNotification.exitAppN -> exitApplication()
         }
     }
 

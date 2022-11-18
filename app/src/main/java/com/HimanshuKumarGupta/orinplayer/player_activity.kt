@@ -36,14 +36,22 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
         var min60: Boolean = false
 
         fun playMusic() {
+            // Setting icons at required places
             musicService!!.showNotification(R.drawable.pause_button)
             binding.playPauseBtn.setIconResource(R.drawable.pause_button)
+            NowPlaying.binding.playPauseBtnNowP.setIconResource(R.drawable.pause_button)
+
+            // Playing music
             musicService!!.mediaPlayer!!.start()
         }
 
-        private fun pauseMusic() {
+        fun pauseMusic() {
+            // Setting icons at required places
             musicService!!.showNotification(R.drawable.play_btn)
             binding.playPauseBtn.setIconResource(R.drawable.play_btn)
+            NowPlaying.binding.playPauseBtnNowP.setIconResource(R.drawable.play_btn)
+
+            // Pausing music
             musicService!!.mediaPlayer!!.pause()
         }
 
