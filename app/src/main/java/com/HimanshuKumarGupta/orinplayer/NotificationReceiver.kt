@@ -19,12 +19,23 @@ class NotificationReceiver: BroadcastReceiver() {
     private fun previousNextSong(increment: Boolean, context: Context ) {
         setSongPosition(increment = increment)
         player_activity.musicService!!.createMediaPlayer()
+
+        // Changed image and text of Player Activity
         Glide.with(context)
             .load(player_activity.musicListPA[player_activity.songPosition].songImageMusic)
             .apply(RequestOptions().placeholder(R.drawable.orinplayer_icon).centerCrop())
             .into(player_activity.binding.songImagePA)
 
         player_activity.binding.songNamePA.text = player_activity.musicListPA[player_activity.songPosition].songNameM
+
+        // Changed image and text of Now playing fragment
+        Glide.with(context)
+            .load(player_activity.musicListPA[player_activity.songPosition].songImageMusic)
+            .apply(RequestOptions().placeholder(R.drawable.orinplayer_icon).centerCrop())
+            .into(NowPlaying.binding.songImgNowP)
+
+        NowPlaying.binding.songNameNowP.text = player_activity.musicListPA[player_activity.songPosition].songNameM
+
         player_activity.playMusic()
     }
 

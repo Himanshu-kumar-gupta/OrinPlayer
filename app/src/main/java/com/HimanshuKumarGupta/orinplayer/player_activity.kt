@@ -45,7 +45,7 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
             musicService!!.mediaPlayer!!.start()
         }
 
-        fun pauseMusic() {
+        private fun pauseMusic() {
             // Setting icons at required places
             musicService!!.showNotification(R.drawable.play_btn)
             binding.playPauseBtn.setIconResource(R.drawable.play_btn)
@@ -78,14 +78,14 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
 
     private fun previousSong() {
         setSongPosition(false)
-        createMediaPlayer()
+        createMediaPlayerPA()
         try {
             setImageText() } catch (e:Exception) { return }
     }
 
     private fun nextSong() {
         setSongPosition(true)
-        createMediaPlayer()
+        createMediaPlayerPA()
 
         //Placing in try-catch block so that if application in foreground is closed
         //So we need not set image text for player_activity layout
@@ -236,7 +236,7 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
         getColor(this@player_activity, R.color.orange1 ))
     }
 
-    private fun createMediaPlayer() {
+    private fun createMediaPlayerPA() {
         if(musicService!!.mediaPlayer == null) musicService!!.mediaPlayer = MediaPlayer()
         musicService!!.mediaPlayer!!.reset()
         musicService!!.mediaPlayer!!.setDataSource(musicListPA[songPosition].path)
@@ -299,7 +299,7 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
         //type-casting p1 to MusicService
         val binder = p1 as MusicService.MyBinder
         musicService = binder.currentService()
-        createMediaPlayer()
+        createMediaPlayerPA()
         musicService!!.seekBarSetup()
     }
 
