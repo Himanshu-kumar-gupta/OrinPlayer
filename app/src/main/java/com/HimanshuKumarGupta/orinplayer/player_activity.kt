@@ -184,6 +184,14 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
     private fun setLayout() {
         songPosition = intent.getIntExtra("index", 0)
         when(intent.getStringExtra("class")) {
+
+            // Passing from recycle view adapter after search
+            "MusicAdapterSearch" -> {
+                musicListPA = ArrayList()
+                musicListPA.addAll(MainActivity.musicSearchList)
+                setImageText()
+            }
+
             //Passing from recycler view adapter
             "MusicAdapter" -> {
                 //Creating a reference to music list in main activity

@@ -1,5 +1,6 @@
 package com.HimanshuKumarGupta.orinplayer
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
@@ -55,6 +56,7 @@ class MusicService: Service() {
         Handler(Looper.getMainLooper()).postDelayed(runnable,0)
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     fun showNotification(playPauseBtn : Int) {
         val previousButtonIntent = Intent(baseContext, NotificationReceiver::class.java)
             .setAction(ApplicationNotification.previousAppN)

@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.HimanshuKumarGupta.orinplayer.databinding.ActivityMainBinding
@@ -28,7 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         lateinit var musicListMA: ArrayList<Music>
-//        lateinit var musicSearchList: ArrayList<Music>
+        lateinit var musicSearchList: ArrayList<Music>
+        var search = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +101,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initializeMusic() {
+        search = false
         musicListMA = getAllMusicFiles()
         binding.MusicRecycleView.setHasFixedSize(true)
         binding.MusicRecycleView.setItemViewCacheSize(15)
@@ -192,18 +195,22 @@ class MainActivity : AppCompatActivity() {
     // Menu for search view
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search_view_menu, menu)
-        val searchView = menu.findItem(R.id.searchView)?.actionView as androidx.appcompat.widget.SearchView
+        val searchView = menu.findItem(R.id.searchView)?.actionView as SearchView
+
         searchView.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean = true
 
             override fun onQueryTextChange(newText: String?): Boolean {
-//                if(newText!=null) {
-//                    val userInput = newText.lowercase()
-//                    for (song in musicListMA)
-//                        if (song.songNameM.lowercase().contains(userInput))
-//                            musicSearchList.add(song)
-//                }
+                musicSearchList = ArrayList()
+                if(newText!=null) {
+                    val userInput = newText.lowercase()
+                    for (song in musicListMA)
+                        if (song.songNameM.lowercase().contains(userInput))
+                            musicSearchList.add(song)
+                    search = true
+                    musicAdapter.updateMusicList()
+                }
                 return true
             }
         })

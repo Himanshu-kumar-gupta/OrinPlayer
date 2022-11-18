@@ -1,5 +1,6 @@
 package com.HimanshuKumarGupta.orinplayer
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -10,7 +11,7 @@ import com.HimanshuKumarGupta.orinplayer.databinding.MusicListViewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class MusicAdapter(private val context: Context,private val musicList: ArrayList<Music>) :
+class MusicAdapter(private val context: Context,private var musicList: ArrayList<Music>) :
     RecyclerView.Adapter<MusicAdapter.MusicHolder>() {
 
     class MusicHolder(binding: MusicListViewBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -35,10 +36,11 @@ class MusicAdapter(private val context: Context,private val musicList: ArrayList
             .into(holder.songImage)
 
         holder.rootBind.setOnClickListener {
-            val intent = Intent(context, player_activity::class.java)
-            intent.putExtra("index", position)
-            intent.putExtra("class", "MusicAdapter")
-            ContextCompat.startActivity(context,intent,null)
+            when {
+                // Change PlayerActivity music list acc to search results
+                MainActivity.search -> openPlayerActivity(reference = "MusicAdapterSearch", pos = position)
+                else -> openPlayerActivity(reference = "MusicAdapter", pos = position)
+            }
         }
     }
 
@@ -46,4 +48,18 @@ class MusicAdapter(private val context: Context,private val musicList: ArrayList
         return musicList.size
     }
 
+    // Updates music list of Adapter after search
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateMusicList() {
+        musicList = ArrayList()
+        musicList.addAll(MainActivity.musicSearchList)
+        notifyDataSetChanged()
+    }
+
+    private fun openPlayerActivity(reference: String, pos: Int) {
+        val intent = Intent(context, player_activity::class.java)
+        intent.putExtra("index", pos)
+        intent.putExtra("class", reference)
+        ContextCompat.startActivity(context,intent,null)
+    }
 }
