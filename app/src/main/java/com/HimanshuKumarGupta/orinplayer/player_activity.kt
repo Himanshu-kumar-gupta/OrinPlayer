@@ -233,8 +233,8 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
         musicService!!.mediaPlayer!!.reset()
         musicService!!.mediaPlayer!!.setDataSource(musicListPA[songPosition].path)
         musicService!!.mediaPlayer!!.prepare()
-        musicService!!.mediaPlayer!!.start()
-        musicService!!.showNotification(R.drawable.pause_button)
+        // play music will start song and set icons
+        playMusic()
 
         //Settings for seekbar
         binding.seekBarStartPA.text = formatDuration(musicService!!.mediaPlayer!!.currentPosition.toLong())
