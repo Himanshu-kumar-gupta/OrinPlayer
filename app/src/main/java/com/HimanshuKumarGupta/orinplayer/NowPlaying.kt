@@ -49,6 +49,9 @@ class NowPlaying : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        // To rotate text
+        binding.songNameNowP.isSelected = true
+
         // Making visible when music is playing
         // and set layout accordingly
         if(player_activity.musicService!=null) {

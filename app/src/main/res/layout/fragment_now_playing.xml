@@ -46,6 +46,9 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/white"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
         android:gravity="center"
         android:layout_toStartOf="@id/playPauseBtnNowP"
         android:layout_toEndOf="@id/songImgNowP"/>
