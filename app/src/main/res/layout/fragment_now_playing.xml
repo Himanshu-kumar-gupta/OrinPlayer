@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".NowPlaying"
+    android:background="@color/orange1">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/songImgNowP"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="5dp"
+        app:shapeAppearanceOverlay="@style/curved"
+        android:src="@drawable/splash_screen"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/nextBtnNowP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        app:icon="@drawable/forward_button"
+        app:iconTint="@color/white"
+        android:layout_centerVertical="true"
+        app:iconSize="30dp"
+        android:layout_marginEnd="10dp"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/playPauseBtnNowP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/play_btn"
+        app:iconTint="@color/white"
+        android:layout_centerVertical="true"
+        app:iconSize="30dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_toStartOf="@id/nextBtnNowP"/>
+    
+    <TextView
+        android:id="@+id/songNameNowP"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/song_name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_toStartOf="@id/playPauseBtnNowP"
+        android:layout_toEndOf="@id/songImgNowP"/>
+</RelativeLayout>
