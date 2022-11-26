@@ -67,13 +67,14 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Starting Service
+        setLayout()
+        clickEventsPA()
+    }
+
+    private fun startServiceInPA() {
         val intent = Intent(this@player_activity, MusicService::class.java)
         bindService(intent, this@player_activity, BIND_AUTO_CREATE)
         startService(intent)
-
-        setLayout()
-        clickEventsPA()
     }
 
     private fun previousSong() {
@@ -193,11 +194,25 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
         songPosition = intent.getIntExtra("index", 0)
         when(intent.getStringExtra("class")) {
 
+            "NowPlaying" -> {
+                setImageText()
+                //Settings for seekbar
+                binding.seekBarStartPA.text = formatDuration(musicService!!.mediaPlayer!!.currentPosition.toLong())
+                binding.seekBarEndPA.text = formatDuration(musicService!!.mediaPlayer!!.duration.toLong())
+                binding.seekBarPA.progress = musicService!!.mediaPlayer!!.currentPosition
+                binding.seekBarPA.max= musicService!!.mediaPlayer!!.duration
+
+                binding.playPauseBtn.setIconResource(
+                    if(musicService!!.mediaPlayer!!.isPlaying)R.drawable.pause_button
+                    else R.drawable.play_btn)
+            }
+
             // Passing from recycle view adapter after search
             "MusicAdapterSearch" -> {
                 musicListPA = ArrayList()
                 musicListPA.addAll(MainActivity.musicSearchList)
                 setImageText()
+                startServiceInPA()
             }
 
             //Passing from recycler view adapter
@@ -205,6 +220,7 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
                 //Creating a reference to music list in main activity
                 musicListPA = MainActivity.musicListMA
                 setImageText()
+                startServiceInPA()
             }
 
             //Passing from shuffle button
@@ -213,6 +229,7 @@ class player_activity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCo
                 musicListPA.addAll(MainActivity.musicListMA)
                 musicListPA.shuffle()
                 setImageText()
+                startServiceInPA()
             }
 
             "NotificationNext" -> {
